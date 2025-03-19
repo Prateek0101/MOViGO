@@ -17,3 +17,4 @@ export const fetchDataFromApi = async (url, params = {}) => {
         return null; // Handle errors gracefully
     }
 };
+do the changes occur
