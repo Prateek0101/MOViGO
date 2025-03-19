@@ -14,9 +14,20 @@ const HeroBanner = () => {
   const {data,loading} = useFetch("/movie/upcoming") || [{ results: [] }, false];
   
   useEffect(() => {
-    const bg=url.backdrop + data?.results[Math.floor(Math.random() * 20)].backdrop_path;
-    setBackground(bg);
-  },[data]);
+    if (data?.results && data.results.length > 0) {  // Ensure data and results exist and are not empty
+      const randomIndex = Math.floor(Math.random() * data.results.length); //Use the correct length
+      const backdropPath = data.results[randomIndex].backdrop_path;
+
+      if (backdropPath) { // Make sure backdrop_path is not null or undefined
+        const bg = url.backdrop + backdropPath;
+        setBackground(bg);
+      } else {
+        console.warn("No backdrop_path found in the API response.");
+      }
+    } else {
+      console.warn("No results found in API response.");
+    }
+  }, [data, url]);
   const searchQueryHandler = (event) =>{
     if(event.key === "Enter" && query.length>0){
       navigate(`/search/${query}`)

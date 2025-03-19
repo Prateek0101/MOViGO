@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "https://api.themoviedb.org/3";
-const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMWJlMTU3NTZiMGMyNjMwMjI5MjNhM2NhYzgzZDYyMyIsIm5iZiI6MTc0MTM4MDUyMS4xMTM5OTk4LCJzdWIiOiI2N2NiNWJhOTQyYzc1MjEyNTJmNTg1MDQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.QYh2dqALqOuZGsloHxPCAnWiUHiYgm5bReSM5hSTLhs"; // Replace with your TMDB token
+const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNWE5NmRmNDhkOTM2ZTM0MzgxOTQxYjg5Zjg4Y2NkZSIsIm5iZiI6MTc0MTM4MDUyMS4xMTM5OTk4LCJzdWIiOiI2N2NiNWJhOTQyYzc1MjEyNTJmNTg1MDQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.P38x2YhciU9ax5lFXtUKjTgHOKTNCl5eSZp7yO2H5NQ";
 
 const headers = {
     Accept: "application/json",
@@ -17,4 +17,3 @@ export const fetchDataFromApi = async (url, params = {}) => {
         return null; // Handle errors gracefully
     }
 };
-do the changes occur
