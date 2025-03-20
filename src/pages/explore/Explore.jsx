@@ -36,30 +36,19 @@ const Explore = () => {
     const [sortby, setSortby] = useState(null);
     const { mediaType } = useParams();
 
-    const wishlist = useSelector((state) => state.wishlist);
-
     const { data: genresData } = useFetch(`/genre/${mediaType}/list`);
     
 
     const fetchInitialData = () => {
         setLoading(true);
-
-        if(mediaType === 'wishlist'){
-            const wishlistData = [...(wishlist?.movies) ||[],...(wishlist?.tvShows) || []];
-            setData({results: wishlistData});
+        fetchDataFromApi(`/discover/${mediaType}`, filters).then((res) => {
+            setData(res);
+            setPageNum((prev) => prev + 1);
             setLoading(false);
-        }
-        else{
-            fetchDataFromApi(`/discover/${mediaType}`, filters).then((res) => {
-                setData(res);
-                setPageNum((prev) => prev + 1);
-                setLoading(false);
-            });
-        }
-    };
+        });
+    }
 
     const fetchNextPageData = () => {
-        if(mediaType === 'wishlist') return ;
         fetchDataFromApi(
             `/discover/${mediaType}?page=${pageNum}`,
             filters
@@ -83,10 +72,9 @@ const Explore = () => {
         setSortby(null);
         setGenre(null);
         fetchInitialData();
-    }, [mediaType, wishlist]);
+    }, [mediaType]);
 
     const onChange = (selectedItems, action) => {
-        if(mediaType === 'wishlist') return ;
         if (action.name === "sortby") {
             setSortby(selectedItems);
             if (action.action !== "clear") {
@@ -129,33 +117,31 @@ const Explore = () => {
                     <div className="pageTitle">
                         {getTitle()}
                     </div>
-                    {mediaType !== "wishlist" && (
-                        <div className="filters">
-                            <Select
-                                isMulti
-                                name="genres"
-                                value={genre}
-                                closeMenuOnSelect={false}
-                                options={genresData?.genres}
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.id}
-                                onChange={onChange}
-                                placeholder="Select genres"
-                                className="react-select-container genresDD"
-                                classNamePrefix="react-select"
-                            />
-                            <Select
-                                name="sortby"
-                                value={sortby}
-                                options={sortbyData}
-                                onChange={onChange}
-                                isClearable={true}
-                                placeholder="Sort by"
-                                className="react-select-container sortbyDD"
-                                classNamePrefix="react-select"
-                            />
-                        </div>
-                    )}
+                    <div className="filters">
+                        <Select
+                            isMulti
+                            name="genres"
+                            value={genre}
+                            closeMenuOnSelect={false}
+                            options={genresData?.genres}
+                            getOptionLabel={(option) => option.name}
+                            getOptionValue={(option) => option.id}
+                            onChange={onChange}
+                            placeholder="Select genres"
+                            className="react-select-container genresDD"
+                            classNamePrefix="react-select"
+                        />
+                        <Select
+                            name="sortby"
+                            value={sortby}
+                            options={sortbyData}
+                            onChange={onChange}
+                            isClearable={true}
+                            placeholder="Sort by"
+                            className="react-select-container sortbyDD"
+                            classNamePrefix="react-select"
+                        />
+                    </div>
                 </div>
                 {loading && <Spinner initial={true} />}
                 {!loading && (

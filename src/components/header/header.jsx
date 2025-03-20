@@ -45,7 +45,7 @@ const Header = () => {
         const savedScrollY = localStorage.getItem("lastScrollY");
         if (savedScrollY) {
             lastScrollY.current = parseInt(savedScrollY);
-            console.log(`Restored scroll position: ${savedScrollY}`);
+            // console.log(`Restored scroll position: ${savedScrollY}`);
         }
 
         window.addEventListener("scroll", controlNavbar);
@@ -77,7 +77,7 @@ const Header = () => {
             navigate('/explore/tv')
         }
         else if(type === "wishlist"){
-            navigate('/explore/whishlist')
+            navigate('/wishlist')
         }
         setMobileMenu(false);
     };

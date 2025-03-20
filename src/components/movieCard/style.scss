@@ -21,7 +21,28 @@
         align-items: flex-end;
         justify-content: space-between;
         padding: 10px;
-        transition: all ease 0.5s;
+        .heartIcon {
+            position: absolute;
+            top: 10px;  /* Adjust as needed */
+            right: 10px;  /* Adjust as needed */
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;  /* Ensures it's above other elements */
+            background-color: white;
+            background-size: auto;
+            border-color: red;
+            border-radius: 50%;
+            padding: 5px;
+            & :hover{
+                transform: scale(1);
+                color: red;
+            }
+        }
+        
+        .heartIcon.red {
+            color: red;
+        }
         .lazy-load-image-background {
             position: absolute;
             top: 0;
@@ -60,26 +81,27 @@
         }
     }
     .textBlock {
-        color: white;
         display: flex;
         flex-direction: column;
+        align-items: left; /* Centers text horizontally */
+        text-align: left;
+        margin-left: 5px;
+        margin-top: 5px;
         .title {
             font-size: 16px;
-            margin-bottom: 10px;
-            line-height: 24px;
-            @include ellipsis(1);
-            @include md {
-                font-size: 20px;
-            }
+            font-weight: bold;
+            color: white !important; /* Force white color */
+            line-height: 1.4;
+            max-width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+    
         .date {
             font-size: 14px;
-            opacity: 0.5;
-        }
-    }
-    &:hover {
-        .posterBlock {
-            opacity: 0.5;
+            color: rgba(255, 255, 255, 0.8) !important; /* Make date more visible */
+            margin-top: 3px;
         }
     }
 }

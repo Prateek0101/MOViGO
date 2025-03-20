@@ -2,46 +2,45 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const loadWishlistFromStorage = () => {
-    const savedMovies = localStorage.getItem('wishlistMovies');
-    const savedTvShows = localStorage.getItem('wishlistTvShows');
-
-    return {
-        movies: savedMovies? JSON.parse(savedMovies) : [],
-        tvShows: savedTvShows? JSON.parse(savedTvShows) : []
+    try {
+        const data = localStorage.getItem("wishlistItems");
+        return data ? JSON.parse(data) : [];
+    } catch (error) {
+        console.error("Error loading wishlist:", error);
+        return [];
     }
-}
-const initialState = loadWishlistFromStorage();
+};
+
+const saveWishlistToStorage = (data) => {
+    try {
+        localStorage.setItem("wishlistItems", JSON.stringify(data));
+    } catch (error) {
+        console.error("Error saving wishlist:", error);
+    }
+};
 
 const wishlistSlice = createSlice({
-    name: 'wishlist',
-    initialState,
+    name: "wishlist",
+    initialState: {
+        items: loadWishlistFromStorage() || [],
+    },
     reducers: {
-        toggleMovieInWishlist: (state, action) => {
-            const movieIndex = state.movies.findIndex(movie=> movie.id === action.payload.id);
-            if(movieIndex == -1){
-                state.movies.push(action.payload);
-                localStorage.setItem("wishlistMovies", JSON.stringify(state.movies));
-            } else{
-                state.movies.splice(movieIndex, 1);
-                localStorage.setItem("wishlistMovies", JSON.stringify(state.movies));
+        toggleItemInWishlist: (state, action) => {
+            if (!Array.isArray(state.items)) {
+                state.items = []; // ✅ Ensure `state.items` is always an array
             }
+            const exists = state.items.some(item => item.id === action.payload.id);
+            state.items = exists 
+            ? state.items.filter(item => item.id !== action.payload.id)
+            : [...state.items, action.payload];
+            console.log("Updated Wishlist:", state.items);
+            saveWishlistToStorage(state.items);  // ✅ Save to localStorage
         },
-        toggleTvShowInWishlist: (state,action) => {
-            const tvIndex = state.tvShows.findIndex(tvShows => tvShows.id ===action.payload.id);
-            if(tvIndex == -1){
-                state.tvShows.push(action.payload);
-                localStorage.setItem("wishlistTvShows", JSON.stringify(state.movies));
-            } else{
-                state.tvShows.splice(tvIndex, 1);
-                localStorage.setItem("wishlistTvShows", JSON.stringify(state.tvShows));
-            }
-        }
-    }
+    },
+});
 
-})
 export const {
-    toggleMovieInWishlist,
-    toggleTvShowInWishlist,
+    toggleItemInWishlist,
 } = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;

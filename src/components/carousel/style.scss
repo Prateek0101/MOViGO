@@ -64,15 +64,23 @@
                 margin-bottom: 30px;
                 .heartIcon {
                     position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    z-index: 2;
+                    top: 10px;  /* Adjust as needed */
+                    right: 10px;  /* Adjust as needed */
+                    font-size: 24px;
                     cursor: pointer;
-                    transition: transform 0.3s;
-                    
-                    &:hover {
-                      transform: scale(1.2);
+                    transition: all 0.3s ease;
+                    z-index: 10;  /* Ensures it's above other elements */
+                    background: rgba(255, 255, 255, 0.7); /* Light background for visibility */
+                    border-radius: 50%;
+                    padding: 5px;
+                    & :hover{
+                        transform: scale(1.5);
+                        color: red;
                     }
+                }
+                
+                .heartIcon.red {
+                    color: red;
                 }
             }
             .textBlock {
@@ -86,18 +94,6 @@
                 .date {
                     width: 75%;
                     height: 20px;
-                }
-                .heartIcon {
-                    font-size: 25px;
-                    cursor: pointer;
-                    margin-left: 185px;
-                    margin-bottom: 20px;
-                    color: white;
-                    transition: transform 0.3s ease;
-
-                    &:hover {
-                        transform: scale(1.3);
-                    }
                 }
             }
         }
@@ -136,6 +132,28 @@
                 align-items: flex-end;
                 justify-content: space-between;
                 padding: 10px;
+                .heartIcon {
+                    position: absolute;
+                    top: 10px;  /* Adjust as needed */
+                    right: 10px;  /* Adjust as needed */
+                    font-size: 30px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    z-index: 10;  /* Ensures it's above other elements */
+                    background-color: white;
+                    background-size: auto;
+                    border-color: red;
+                    border-radius: 50%;
+                    padding: 5px;
+                    & :hover{
+                        transform: scale(1);
+                        color: red;
+                    }
+                }
+                
+                .heartIcon.red {
+                    color: red;
+                }
                 .lazy-load-image-background {
                     position: absolute;
                     top: 0;
@@ -195,19 +213,6 @@
                     font-size: 14px;
                     color: rgba(255, 255, 255, 0.8) !important; /* Make date more visible */
                     margin-top: 3px;
-                }
-                .heartIcon {
-                    position: relative;
-                    font-size: 25px;
-                    cursor: pointer;
-                    transition: transform 0.3s ease;
-                    color: white;
-                    margin-left: 320px;
-                    margin-top: -25px;
-                    &:hover {
-                        transform: scale(1.3);
-                        color: red;
-                    }
                 }
             }
         }

@@ -1,29 +1,39 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+import "./style.scss";
+
+import ContentWrapper from "../../components/contentWrapper/ContentWrapper";
 import MovieCard from "../../components/movieCard/MovieCard";
+import Spinner from "../../components/spinner/Spinner";
 
-const WishlistPage = () => {
-    const { movies, tvShows } = useSelector((state) => state.wishlist);
+const WishList = () => {
+    const wishlistItems = useSelector((state) => state.wishlist?.items || []);
 
-    return (
-        <div className="wishlistContainer">
-            <h2>My Wishlist</h2>
-            <div className="wishlistItems">
-                {movies.length > 0 && <h3>Movies</h3>}
-                <div className="wishlistGrid">
-                    {movies.map((movie) => (
-                        <MovieCard key={movie.id} data={movie} mediaType="movie" />
-                    ))}
+    return (                                  
+        <div className="explorePage"> {/* Keep the same styling as Explore Page */}
+            <ContentWrapper>
+                <div className="pageHeader">
+                    <div className="pageTitle">Your Wishlist</div>
                 </div>
-                {tvShows.length > 0 && <h3>TV Shows</h3>}
-                <div className="wishlistGrid">
-                    {tvShows.map((tvShow) => (
-                        <MovieCard key={tvShow.id} data={tvShow} mediaType="tv" />
-                    ))}
-                </div>
-            </div>
+                {wishlistItems.length === 0 ? (
+                    <span className="resultNotFound">Your wishlist is empty!</span>
+                ) : (
+                    <InfiniteScroll
+                        className="content"
+                        dataLength={wishlistItems.length}
+                        hasMore={false} // No need for pagination
+                        loader={<Spinner />}
+                    >
+                        {wishlistItems.map((item, index) => (
+                            <MovieCard key={index} data={item} mediaType={item.media_type} />
+                        ))}
+                    </InfiniteScroll>
+                )}
+            </ContentWrapper>
         </div>
     );
 };
 
-export default WishlistPage;
+export default WishList;

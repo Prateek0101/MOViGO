@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getApiConfiguration, getGenres } from './store/homeSlice';
 
+import SignupPage from './pages/signUp/SignupPage';
+import LoginPage from "./pages/login/LoginPage";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
@@ -14,11 +16,12 @@ import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
 import Wishlist from './pages/wishlist/WishList';
+import ProtectedRoute from './context/ProtectedRoute';
+
 
 function App() {
   const dispatch=useDispatch();
   const {url}= useSelector((state)=>state.home);
-  console.log(url);
   
   useEffect(()=>{
     fetchApiConfig();
@@ -68,7 +71,13 @@ function App() {
   <BrowserRouter>
   <Header/>
     <Routes>
-      <Route path="/" element={<Home/>}/>
+      <Route path='/' element={<navigate to='/login'/>}/>
+      <Route path="/login" element={<LoginPage/>}/>
+      <Route path='/signup' element={<SignupPage/>}/>
+      <Route path="/" element={
+        <ProtectedRoute>
+          <Home/>
+        </ProtectedRoute>}/>
       <Route path="/:mediaType/:id" element={<Details/>}/>
       <Route path="/search/:query" element={<SearchResult/>}/>
       <Route path="/explore/:mediaType" element={<Explore/>}/>
