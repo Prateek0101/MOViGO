@@ -5,14 +5,12 @@ import App from './App.jsx';
 import { persistor, store } from './store/store.js';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AuthProvider } from './context/AuthContext.jsx';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <AuthProvider>
-        <App/>
-      </AuthProvider>
+      <App/>
     </PersistGate>
   </Provider>,
 );
