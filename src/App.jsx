@@ -12,7 +12,6 @@ import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
 import Wishlist from './pages/wishlist/WishList';
-import ProtectedRoute from './context/ProtectedRoute';
 
 function App() {
   const dispatch = useDispatch();
@@ -63,15 +62,11 @@ function App() {
     <BrowserRouter>
     <Header />
     <Routes>
-      <Route path='/' element={<Navigate to = '/Login'/>}></Route>
-      <Route path='/signup' element='/Signup'></Route>
-      <Route element={<ProtectedRoute/>}>
-        <Route path="/" element={<Home />} />
-        <Route path="/:mediaType/:id" element={<Details />} />
-        <Route path="/search/:query" element={<SearchResult />} />
-        <Route path="/explore/:mediaType" element={<Explore />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-      </Route>
+      <Route path="/" element={<Home />} />
+      <Route path="/:mediaType/:id" element={<Details />} />
+      <Route path="/search/:query" element={<SearchResult />} />
+      <Route path="/explore/:mediaType" element={<Explore />} />
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
     <Footer />
