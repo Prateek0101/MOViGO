@@ -1,0 +1,81 @@
+// Netflix Login Page SCSS
+
+$primary-color: #e50914;
+$background-color: #141414;
+$text-color: #fff;
+$input-bg: #333;
+$input-border: #666;
+$button-hover: #b20710;
+
+body {
+  background: $background-color;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 60px;
+  border-radius: 5px;
+  width: 350px;
+  text-align: center;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+    text-align: left;
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      background: $input-bg;
+      border: 1px solid $input-border;
+      border-radius: 4px;
+      color: $text-color;
+    }
+
+    .error {
+      color: $primary-color;
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+  }
+
+  button {
+    background: $primary-color;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    color: $text-color;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    transition: background 0.3s;
+    margin-top: 15px;
+
+    &:hover {
+      background: $button-hover;
+    }
+  }
+}
