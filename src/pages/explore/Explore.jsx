@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Select from "react-select";
 
@@ -11,7 +10,6 @@ import { fetchDataFromApi } from "../../utils/api";
 import ContentWrapper from "../../components/contentWrapper/ContentWrapper";
 import MovieCard from "../../components/movieCard/MovieCard";
 import Spinner from "../../components/spinner/Spinner";
-import { initializeUseSelector } from "react-redux/es/hooks/useSelector";
 
 let filters = {};
 
@@ -105,9 +103,6 @@ const Explore = () => {
         }
         if(mediaType === 'tv'){
             return "Explore TV Shows";
-        }
-        if(mediaType === "wishlist"){
-            return "Explore Your Wishlist";
         }
     }
     return (

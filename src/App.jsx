@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { fetchDataFromApi } from './utils/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApiConfiguration, getGenres } from './store/homeSlice';
@@ -12,15 +12,22 @@ import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
 import Wishlist from './pages/wishlist/WishList';
+import Signin from './pages/signIn/SignIn';
+import Signup from './pages/signUp/SignUp';
 
 function App() {
   const dispatch = useDispatch();
   const { url } = useSelector((state) => state.home);
-  
+  const location = useLocation();
+  const hideHeader = location.pathname === "/";
+
+
   useEffect(() => {
     fetchApiConfig();
     genresCall();
   }, []);
+
+  
   
   const fetchApiConfig = async () => {
     try {
@@ -59,10 +66,11 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-    <Header />
+    <>
+    {!hideHeader && <Header/>}
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Signin/>} />
+      <Route path="/:home" element={<Home />} />
       <Route path="/:mediaType/:id" element={<Details />} />
       <Route path="/search/:query" element={<SearchResult />} />
       <Route path="/explore/:mediaType" element={<Explore />} />
@@ -70,8 +78,14 @@ function App() {
       <Route path="*" element={<PageNotFound />} />
     </Routes>
     <Footer />
-  </BrowserRouter>
+    </>
   );
 }
 
-export default App;
+const rootApp = () =>{
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+}
+
+export default rootApp;
