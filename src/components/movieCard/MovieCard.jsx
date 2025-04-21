@@ -26,9 +26,38 @@ const MovieCard = ({ data, fromSearch, mediaType }) => {
     const isWishlisted = wishlistItems.some((wishlistItem) => wishlistItem.id === data.id);
 
     // Toggle wishlist item
-    const handleWishlistToggle = (e) => {
+    const handleWishlistToggle = async (e) => {
         e.stopPropagation();
-        dispatch(toggleItemInWishlist(data));
+        const user = JSON.parse(localStorage.getItem("movigoUser"));
+        if(!user || !user.id){
+            alert("Please Log in first");
+            return;
+        }
+        const movieData = {
+            userId: user.id,
+            movieId: data.id,
+            movieTitle: data.title || data.name,
+            posterUrl: posterUrl,
+        }
+        try{
+            const response = await fetch(`http://localhost:5000/api/wishlist`,{
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify(movieData),
+            })
+            const result = await response.json();
+            if(response.ok){
+                dispatch(toggleItemInWishlist(data));
+            }
+            else{
+                console.log("Error addig to wishlist : ",result.message);
+            }
+        }
+        catch(err){
+            console.error("Error adding to wishlist : ",err);
+        }        
     };
 
     return (

@@ -11,6 +11,7 @@ import Popular from './popular/Popular';
 import TopRated from './topRated/TopRated';
 
 const Home = () => {
+
   return (
     <div className='homePage'>
       <HeroBanner/>

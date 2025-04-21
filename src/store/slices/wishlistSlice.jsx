@@ -1,10 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getUserEmail = () => localStorage.getItem("userEmail");
+const getUserWishlist = () => {
+    const email = getUserEmail();
+    if(email){
+        const stored = localStorage.getItem(`wishlist${email}`);
+        return stored ? JSON.parse(stored) : [];
+    }
+    return [];
+};
 
 const loadWishlistFromStorage = () => {
     try {
-        const data = localStorage.getItem("wishlistItems");
-        return data ? JSON.parse(data) : [];
+        const data = getUserWishlist();
+        return data;
     } catch (error) {
         console.error("Error loading wishlist:", error);
         return [];
@@ -12,19 +21,29 @@ const loadWishlistFromStorage = () => {
 };
 
 const saveWishlistToStorage = (data) => {
-    try {
-        localStorage.setItem("wishlistItems", JSON.stringify(data));
-    } catch (error) {
-        console.error("Error saving wishlist:", error);
+    const email = getUserEmail();
+    if(email){
+        try {
+            localStorage.setItem(`wishlist-${email}`, JSON.stringify(data));
+        } catch (error) {
+            console.error("Error saving wishlist:", error);
+        }
     }
+    
 };
+const initialState = {
+    items: loadWishlistFromStorage(),
+}
 
 const wishlistSlice = createSlice({
     name: "wishlist",
     initialState: {
-        items: loadWishlistFromStorage() || [],
+        items: [],
     },
     reducers: {
+        setWishlistItems: (state, action) => {
+            state.items = action.payload;
+        },
         toggleItemInWishlist: (state, action) => {
             if (!Array.isArray(state.items)) {
                 state.items = []; // ✅ Ensure `state.items` is always an array
@@ -40,6 +59,7 @@ const wishlistSlice = createSlice({
 });
 
 export const {
+    setWishlistItems,
     toggleItemInWishlist,
 } = wishlistSlice.actions;
 

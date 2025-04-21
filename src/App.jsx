@@ -14,12 +14,14 @@ import PageNotFound from "./pages/404/PageNotFound";
 import Wishlist from './pages/wishlist/WishList';
 import Signin from './pages/signIn/SignIn';
 import Signup from './pages/signUp/SignUp';
+import useLoadWishlist from './pages/wishlist/loadWishlist';
+
 
 function App() {
   const dispatch = useDispatch();
   const { url } = useSelector((state) => state.home);
   const location = useLocation();
-  const hideHeader = location.pathname === "/";
+  const hideHeader = location.pathname === "/" && "/signup";
 
 
   useEffect(() => {
@@ -64,12 +66,15 @@ function App() {
 
     dispatch(getGenres(allGenres));
   };
+  
+  useLoadWishlist();
 
   return (
     <>
     {!hideHeader && <Header/>}
     <Routes>
       <Route path="/" element={<Signin/>} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/:home" element={<Home />} />
       <Route path="/:mediaType/:id" element={<Details />} />
       <Route path="/search/:query" element={<SearchResult />} />
@@ -83,9 +88,9 @@ function App() {
 }
 
 const rootApp = () =>{
-  <BrowserRouter>
+  return(<BrowserRouter>
     <App />
   </BrowserRouter>
-}
+)}
 
 export default rootApp;

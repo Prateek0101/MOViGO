@@ -1,70 +1,106 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./style.scss";
 
 const Signup = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [tel, setTel] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Password do not match");
+      return;
+    }
+
+    const response = await fetch("http://localhost:5000/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password, tel, name}),
+    });
+    const data = await response.json();
+    if(response.ok){
+      alert("User added successfully");
+      navigate("/");
+    }
+  }
+
   return (
-    <div className="relative w-screen h-screen bg-black overflow-hidden">
-      {/* Background Image */}
+    <div className="signup-container">
       <img
-        className="absolute w-full h-full object-cover"
-        src="https://placehold.co/1920x1024"
+        className="background-image"
+        src="src/assets/bg.jpg"
         alt="Background"
       />
+      <div className="overlay"></div>
 
-      {/* Dark Overlay */}
-      <div className="absolute w-full h-full bg-black bg-opacity-70"></div>
+      <form onSubmit={handleSubmit}>
+        <div className="signup-box">
+          <img
+            className="logo"
+            src="src/assets/Logo.png" 
+            alt="Logo"
+          />
+          <h2 className="title">Sign Up</h2>
 
-      {/* Logo */}
-      <img
-        className="absolute top-10 left-10 w-40"
-        src="https://placehold.co/168x80"
-        alt="Logo"
-      />
+          <input
+            type="text"
+            placeholder="Name"
+            className="input-field"
+            value={name}
+            onChange={(e) => setName(e.target.value)} 
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email address"
+            className="input-field"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} 
+            required
+          />
+          <input
+            type="tel"
+            placeholder="Mobile Number"
+            className="input-field"
+            value={tel}
+            onChange={(e) => setTel(e.target.value)} 
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="input-field"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} 
+            required
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="input-field"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)} 
+            required
+          />
 
-      {/* Sign Up Box */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[450px] p-8 bg-black bg-opacity-70 rounded-lg text-white">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+          <button type="submit" className="signup-btn">
+            Sign Up
+          </button>
 
-        {/* Input Fields */}
-        <input
-          type="text"
-          placeholder="Name"
-          className="w-full p-3 mb-4 bg-black bg-opacity-30 border border-white border-opacity-70 rounded focus:outline-none text-white"
-        />
-        <input
-          type="email"
-          placeholder="Email address"
-          className="w-full p-3 mb-4 bg-black bg-opacity-30 border border-white border-opacity-70 rounded focus:outline-none text-white"
-        />
-        <input
-          type="tel"
-          placeholder="Mobile Number"
-          className="w-full p-3 mb-4 bg-black bg-opacity-30 border border-white border-opacity-70 rounded focus:outline-none text-white"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-3 mb-4 bg-black bg-opacity-30 border border-white border-opacity-70 rounded focus:outline-none text-white"
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          className="w-full p-3 mb-4 bg-black bg-opacity-30 border border-white border-opacity-70 rounded focus:outline-none text-white"
-        />
-
-        {/* Sign Up Button */}
-        <button className="w-full p-3 bg-red-600 hover:bg-red-700 rounded font-bold">
-          Sign Up
-        </button>
-
-        {/* Already have an account */}
-        <div className="text-center mt-4 text-sm text-white text-opacity-70">
-          Already have an Account?{" "}
-          <a href="/signin" className="text-red-500 font-bold hover:underline">
-            Sign In Now
-          </a>
+          <div className="signin-link">
+            Already have an Account?{" "}
+            <Link to="/">Sign In Now</Link>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
