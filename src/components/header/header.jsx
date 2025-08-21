@@ -6,7 +6,7 @@ import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
 import "./style.scss";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/Logo.png";
 import WishList from "../../pages/wishlist/WishList";
 import { useSelector } from "react-redux";
 
